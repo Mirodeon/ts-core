@@ -1,1 +1,1 @@
-# typescript-core
+# ts-core
