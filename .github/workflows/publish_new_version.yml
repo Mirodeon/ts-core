@@ -32,3 +32,21 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "mehdi.habaru@gmail.com"
+
+      - name: Check out to ts-entity
+        uses: actions/checkout@v4
+        with:
+          repository: Mirodeon/ts-entity
+          token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
+          path: ts-entity
+
+      - name: Refresh ts-entity
+        run: |
+          cd ts-entity
+          npm-check-updates @mirodeon/ts-core -u
+          git add --all
+          git commit -m "Refresh version of ts-core"
+          npm version patch -m "New version of ts-entity"
+          git push
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.ACCESS_TOKEN_NPM }}
