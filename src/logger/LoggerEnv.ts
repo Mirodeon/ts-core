@@ -16,19 +16,9 @@ export class LoggerEnv extends Logger {
         }
     }
 
-    public static Json(json: {}): void {
-        this.ConditionalLog(json, super.Json);
-    }
-
-    public static Info(message: string): void {
-        this.ConditionalLog(message, super.Info);
-    }
-
-    public static Warning(message: string): void {
-        this.ConditionalLog(message, super.Warning)
-    }
-
-    public static Error(message: string): void {
-        this.ConditionalLog(message, super.Error);
+    static Log(message: string, type: string, logging: (message: string) => void): void {
+        this.ConditionalLog(message, (message: string) => {
+            super.Log(message, type, logging);
+        });
     }
 }

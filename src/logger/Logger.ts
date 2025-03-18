@@ -1,23 +1,45 @@
 import util = require('util');
+import {IData} from "../data/IData";
 
 export class Logger {
-    public static Json(json: {}): void {
-        let d = new Date();
-        console.log(d.toLocaleString() + " | JSON: " + util.inspect(json, false, null));
+    static Json(json: IData): void {
+        this.Log(util.inspect(json, false, null), "JSON", console.log);
     }
 
-    public static Info(message: string): void {
-        let d = new Date();
-        console.log(d.toLocaleString() + " | INFO: " + message);
+    static Info(message: string): void {
+        this.Log(message, "INFO", console.log);
     }
 
-    public static Warning(message: string): void {
-        let d = new Date();
-        console.warn(d.toLocaleString() + " | WARNING: " + message);
+    static Warning(message: string): void {
+        this.Log(message, "WARNING", console.warn);
     }
 
-    public static Error(message: string): void {
+    static Error(message: string): void {
+        this.Log(message, "ERROR", console.error);
+    }
+
+    static GroupStart(message: string): void {
+        this.Log(message, "INFO", console.group)
+    }
+
+    static GroupStartJson(json: IData): void {
+        this.Log(util.inspect(json, false, null), "JSON", console.group);
+    }
+
+    static GroupStartCollapsed(message: string): void {
+        this.Log(message, "INFO", console.groupCollapsed);
+    }
+
+    static GroupStartCollapsedJson(json: IData): void {
+        this.Log(util.inspect(json, false, null), "JSON", console.groupCollapsed);
+    }
+
+    static GroupEnd(): void {
+        console.groupEnd();
+    }
+
+    static Log(message: string, type: string, logging: (message: string) => void): void {
         let d = new Date();
-        console.error(d.toLocaleString() + " | ERROR: " + message)
+        logging(d.toLocaleString() + " | " + type + ": " + message);
     }
 }
